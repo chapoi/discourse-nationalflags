@@ -21,7 +21,8 @@ class NationalFlagComponent extends Component {
       <img 
         class="nationalflag-post"
         src="/plugins/discourse-nationalflags/images/nationalflags/{{this.flagCode}}.png"
-        alt="Flag"
+        alt={{this.args.post.user_signature}}
+        title={{this.args.post.user_signature}}
       />
     {{/if}}
   </template>
