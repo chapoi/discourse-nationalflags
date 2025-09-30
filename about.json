@@ -1,0 +1,17 @@
+{
+  "name": "discourse-nationalflags",
+  "about_url": "https://github.com/chapoi/discourse-nationalflags",
+  "license_url": "https://github.com/chapoi/discourse-nationalflags/blob/master/LICENSE",
+  "authors": "chapoi",
+  "version": "1.0.0",
+  "minimum_discourse_version": "3.0.0",
+  "keywords": [
+    "discourse",
+    "plugin",
+    "national flags",
+    "countries",
+    "user profiles",
+    "internationalization"
+  ],
+  "description": "A Discourse plugin that allows users to display their national flag on their profile and posts. Features include a user preference setting to choose from 240+ country flags and display of flag next to usernames in posts."
+}
