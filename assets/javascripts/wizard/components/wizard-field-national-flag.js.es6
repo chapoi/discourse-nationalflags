@@ -21,7 +21,7 @@ export default Ember.Component.extend({
             description: I18n.t(`flags.description.${element.code}`)
           }
         })
-        .sortBy('description');
+        .sort((a, b) => a.description.localeCompare(b.description));
 
       this.set('natflaglist', localised_flags);
     })

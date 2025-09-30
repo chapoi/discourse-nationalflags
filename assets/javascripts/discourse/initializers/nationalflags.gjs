@@ -1,8 +1,31 @@
+import Component from "@glimmer/component";
 import {h} from 'virtual-dom';
 import {withPluginApi} from 'discourse/lib/plugin-api';
 import {ajax} from 'discourse/lib/ajax';
+import { and, notEq, or } from "truth-helpers";
 
 const PLUGIN_ID = "national_flags";
+
+class NationalFlagComponent extends Component {
+  static shouldRender(args, siteSettings) {
+    const result = args.post?.user_signature;
+    return result && result !== 'none';
+  }
+
+  get flagCode() {
+    return this.args.post?.user_signature || 'none';
+  }
+
+  <template>
+    {{#if (and this.args.post.user_signature (notEq this.args.post.user_signature "none"))}}
+      <img 
+        class="nationalflag-post"
+        src="/plugins/discourse-nationalflags/images/nationalflags/{{this.flagCode}}.png"
+        alt="Flag"
+      />
+    {{/if}}
+  </template>
+}
 
 function initializeNationalFlags(api, siteSettings) {
   const nationalflagsEnabled = siteSettings.nationalflag_enabled;
@@ -11,24 +34,10 @@ function initializeNationalFlags(api, siteSettings) {
     return;
   }
 
-  api.decorateWidget('poster-name:after', dec => {
-    let result = 'none';
-
-    if (dec.attrs && dec.attrs.userCustomFields && dec.attrs.userCustomFields.nationalflag_iso) {
-      result = dec.attrs.userCustomFields.nationalflag_iso;
-    }
-
-    if (!result || result === 'none') {
-      return;
-    }
-
-    return dec.h('img', {
-      className: "nationalflag-post",
-      attributes: {
-        src: "/plugins/discourse-nationalflags/images/nationalflags/" + result + ".png"
-      }
-    });
-  });
+  api.renderAfterWrapperOutlet(
+    "post-meta-data-poster-name", 
+    NationalFlagComponent
+  );
 
   api.modifyClass('route:preferences', {
     pluginId: PLUGIN_ID,
@@ -45,7 +54,7 @@ function initializeNationalFlags(api, siteSettings) {
               description: I18n.t(`flags.description.${element.code}`)
             };
           })
-          .sortBy('description');
+          .sort((a, b) => a.description.localeCompare(b.description));
 
         model.set('natflaglist', localised_flags);
       })
@@ -54,9 +63,11 @@ function initializeNationalFlags(api, siteSettings) {
 }
 
 export default {
-  name : 'nationalflag',
+  name: "nationalflag",
   initialize(container) {
     const siteSettings = container.lookup('site-settings:main');
-    withPluginApi('0.1', api => initializeNationalFlags(api, siteSettings));
+    withPluginApi("0.1", (api) => {
+      initializeNationalFlags(api, siteSettings);
+    });
   }
 };
