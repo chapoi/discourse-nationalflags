@@ -15,10 +15,11 @@ export default Component.extend({
 
         localised_flags = natflags.flags
           .map((element) => {
+            const description = I18n.t(`flags.description.${element.code}`);
             return {
               code: element.code,
               pic: element.pic,
-              description: I18n.t(`flags.description.${element.code}`),
+              description: description,
             };
           })
           .sort((a, b) => a.description.localeCompare(b.description));
