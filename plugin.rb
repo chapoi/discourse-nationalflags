@@ -8,8 +8,6 @@ enabled_site_setting :nationalflag_enabled
 
 PLUGIN_NAME = "discourse-nationalflags"
 
-DiscoursePluginRegistry.serialized_current_user_fields << "nationalflag_iso"
-
 after_initialize do
 
   module ::DiscourseNationalFlags
@@ -21,12 +19,12 @@ after_initialize do
 
   load File.expand_path('../lib/flags.rb', __FILE__)
   load File.expand_path('../lib/flag_list.rb', __FILE__)
+  load File.expand_path('../controllers/flags.rb', __FILE__)
 
   Discourse::Application.routes.append do
     mount ::DiscourseNationalFlags::Engine, at: 'natflags'
   end
 
-  load File.expand_path('../controllers/flags.rb', __FILE__)
 
   ::DiscourseNationalFlags::Engine.routes.draw do
     get "/flags" => "flags#flags"
@@ -50,19 +48,12 @@ after_initialize do
     add_to_serializer(:post, :user_signature, false) {
       object.user.custom_fields['nationalflag_iso']
     }
-
-    # I guess this should be the default @ discourse. PR maybe?
-    add_to_serializer(:user, :custom_fields, false) {
-      if object.custom_fields == nil then
-        {}
-      else
-        object.custom_fields
-      end
-    }
   end
 end
 
 register_asset "stylesheets/nationalflags.scss"
+
+
 
 DiscourseEvent.on(:custom_wizard_ready) do
   if defined?(CustomWizard) == 'constant' && CustomWizard.class == Module
