@@ -14,8 +14,6 @@ export default class NationalFlagPreference extends Component {
   }
 
   <template>
-  {{#if this.siteSettings.nationalflag_enabled}}
-
   <div class="control-group nationalflags">
     <label class="control-label">{{i18n "flags.label"}}</label>
     <div class="controls">
@@ -25,15 +23,15 @@ export default class NationalFlagPreference extends Component {
         nameChanges=true
         content=this.flags
         none=this.none
-        value=this.args.model.custom_fields.nationalflag_iso
+        value=@model.custom_fields.nationalflag_iso
       }}
       <img
         class="nationalflag-usersummary"
-        src="/plugins/discourse-nationalflags/images/nationalflags/{{this.args.model.custom_fields.nationalflag_iso}}.png"
+        src="/plugins/discourse-nationalflags/images/nationalflags/{{@model.custom_fields.nationalflag_iso}}.png"
       />
     </div>
   </div>
-{{/if}}
+
 </template>
 }
 
