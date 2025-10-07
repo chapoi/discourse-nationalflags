@@ -29,17 +29,16 @@ after_initialize do
       }
     end
   end
-end
 
-register_user_custom_field_type :nationalflag_iso, :text
-allow_public_user_custom_field :nationalflag_iso
-register_editable_user_custom_field :nationalflag_iso
-  
-  if SiteSetting.nationalflag_enabled then
-  add_to_serializer(:post, :user_signature, respect_plugin_enabled: false) {
-      object.user.custom_fields['nationalflag_iso']
-    }
-  end
+  register_user_custom_field_type :nationalflag_iso, :text
+  allow_public_user_custom_field :nationalflag_iso
+  register_editable_user_custom_field :nationalflag_iso
+    
+
+  add_to_serializer(:post, :user_signature) {
+    object.user.custom_fields['nationalflag_iso']
+  }
+
 end
 
 register_asset "stylesheets/nationalflags.scss"
