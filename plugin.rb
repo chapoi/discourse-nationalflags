@@ -19,7 +19,6 @@ after_initialize do
 
   load File.expand_path('../lib/flags.rb', __FILE__)
   load File.expand_path('../lib/flag_list.rb', __FILE__)
-  load File.expand_path('../controllers/flags.rb', __FILE__)
 
   Discourse::Application.routes.append do
     mount ::DiscourseNationalFlags::Engine, at: 'natflags'
@@ -29,6 +28,18 @@ after_initialize do
   ::DiscourseNationalFlags::Engine.routes.draw do
     get "/flags" => "flags#flags"
   end
+
+add_to_serializer(:site, :national_flags, false) do
+  if SiteSetting.nationalflag_enabled
+    ::DiscourseNationalFlags::FlagList.list.map do |flag|
+      {
+        code: flag.code,
+        pic: flag.pic,
+        description: I18n.t("js.flags.description.#{flag.code}"),
+      }
+    end
+  end
+end
 
   public_user_custom_fields_setting = SiteSetting.public_user_custom_fields
   if public_user_custom_fields_setting.empty?
@@ -45,7 +56,7 @@ after_initialize do
   register_editable_user_custom_field :nationalflag_iso if defined? register_editable_user_custom_field
   
   if SiteSetting.nationalflag_enabled then
-    add_to_serializer(:post, :user_signature, false) {
+  add_to_serializer(:post, :user_signature, respect_plugin_enabled: false) {
       object.user.custom_fields['nationalflag_iso']
     }
   end

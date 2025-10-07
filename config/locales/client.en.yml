@@ -1,14 +1,14 @@
-en: 
+en:
   admin_js:
     admin:
       wizard:
         field:
           type:
-            national-flag: "National Flag"
+            national-flag: "National flag"
   js:
-    flags: 
+    flags:
       label: "National Flag"
-      description: 
+      description:
         ad: Andorra
         ae: "United Arab Emirates"
         af: Afghanistan
@@ -181,8 +181,8 @@ en:
         nf: "Norfolk Island"
         ng: Nigeria
         ni: Nicaragua
-        nl: Netherlands         
-        'no': Norway
+        nl: Netherlands
+        "no": Norway
         none: "No flag"
         np: Nepal
         nr: Nauru
