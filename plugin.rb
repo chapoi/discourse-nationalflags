@@ -1,8 +1,8 @@
 # name: discourse-nationalflags
 # about: Display National Flags from User's home countries.
-# version: 2.0
-# authors: Neil Ebrey <neil.ebrey@gmail.com>, Rob Barrow <merefield@gmail.com>
-# url: https://github.com/Ebsy/discourse-nationalflags
+# version: 3.0
+# authors: chapoi, charlie@discourse.org, Neil Ebrey <neil.ebrey@gmail.com>, Rob Barrow <merefield@gmail.com>
+# url: https://github.com/chapoi/discourse-nationalflags
 
 enabled_site_setting :nationalflag_enabled
 

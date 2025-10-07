@@ -3,7 +3,7 @@
   "about_url": "https://github.com/chapoi/discourse-nationalflags",
   "license_url": "https://github.com/chapoi/discourse-nationalflags/blob/master/LICENSE",
   "authors": "chapoi",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "minimum_discourse_version": "3.0.0",
   "keywords": [
     "discourse",
