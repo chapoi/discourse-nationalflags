@@ -20,17 +20,7 @@ after_initialize do
   load File.expand_path('../lib/flags.rb', __FILE__)
   load File.expand_path('../lib/flag_list.rb', __FILE__)
 
-  Discourse::Application.routes.append do
-    mount ::DiscourseNationalFlags::Engine, at: 'natflags'
-  end
-
-
-  ::DiscourseNationalFlags::Engine.routes.draw do
-    get "/flags" => "flags#flags"
-  end
-
-add_to_serializer(:site, :national_flags, false) do
-  if SiteSetting.nationalflag_enabled
+  add_to_serializer(:site, :national_flags) do
     ::DiscourseNationalFlags::FlagList.list.map do |flag|
       {
         code: flag.code,
