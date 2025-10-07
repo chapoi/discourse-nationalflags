@@ -41,19 +41,9 @@ add_to_serializer(:site, :national_flags, false) do
   end
 end
 
-  public_user_custom_fields_setting = SiteSetting.public_user_custom_fields
-  if public_user_custom_fields_setting.empty?
-    SiteSetting.set("public_user_custom_fields", "nationalflag_iso")
-  elsif public_user_custom_fields_setting !~ /nationalflag_iso/
-    SiteSetting.set(
-      "public_user_custom_fields",
-      [SiteSetting.public_user_custom_fields, "nationalflag_iso"].join("|")
-    )
-  end
-
-  User.register_custom_field_type('nationalflag_iso', :text)
-
-  register_editable_user_custom_field :nationalflag_iso if defined? register_editable_user_custom_field
+register_user_custom_field_type :nationalflag_iso, :text
+allow_public_user_custom_field :nationalflag_iso
+register_editable_user_custom_field :nationalflag_iso
   
   if SiteSetting.nationalflag_enabled then
   add_to_serializer(:post, :user_signature, respect_plugin_enabled: false) {
@@ -63,19 +53,3 @@ end
 end
 
 register_asset "stylesheets/nationalflags.scss"
-
-
-
-DiscourseEvent.on(:custom_wizard_ready) do
-  if defined?(CustomWizard) == 'constant' && CustomWizard.class == Module
-    CustomWizard::Field.register('national-flag', 'discourse-nationalflags', ['components', 'templates'])
-    CustomWizard::UpdateValidator.add_field_validator(0, 'national-flag') do |field, value, updater|
-      field_id = field.id.to_s
-      list = ::DiscourseNationalFlags::FlagList.list
-      map_codes = list.map(&:code)
-      unless map_codes.include?(value)
-        updater.errors.add(field.id, I18n.t('wizard.field.flag_not_exists'))
-      end
-    end
-  end
-end
