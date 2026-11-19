@@ -3,6 +3,8 @@ import Component from "@glimmer/component";
 import { service } from "@ember/service";
 import {i18n} from "discourse-i18n";
 import ComboBox from "select-kit/components/combo-box";
+import { and, notEq } from "truth-helpers";
+import dIcon from "discourse/helpers/d-icon";
 
 
 export default class NationalFlagPreference extends Component {
@@ -25,10 +27,19 @@ export default class NationalFlagPreference extends Component {
         none=this.none
         value=@model.custom_fields.nationalflag_iso
       }}
-      <img
-        class="nationalflag-usersummary"
-        src="/plugins/discourse-nationalflags/images/nationalflags/{{@model.custom_fields.nationalflag_iso}}.png"
-      />
+      {{#if
+        (and
+          @model.custom_fields.nationalflag_iso
+          (notEq @model.custom_fields.nationalflag_iso "none")
+        )
+      }}
+        <img
+          class="nationalflag-usersummary"
+          src="/plugins/discourse-nationalflags/images/nationalflags/{{@model.custom_fields.nationalflag_iso}}.png"
+        />
+      {{else}}
+        <span class="nationalflag-usersummary nationalflag-none">{{dIcon "globe"}}</span>
+      {{/if}}
     </div>
   </div>
 
