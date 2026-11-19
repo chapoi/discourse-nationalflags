@@ -9,9 +9,17 @@
   width: 32px;
 }
 
+.nationalflags .controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+
 .user-profile-nationalflag {
   display: inline-flex;
   align-items: center;
+  height: 100%;
+  margin-left: 1em;
 
   .nationalflag-usersummary {
     width: 1.25em;
@@ -21,6 +29,6 @@
 .nationalflag-none {
   display: inline-flex;
   justify-content: center;
-  color: var(--primary-low-mid);
-  font-size: var(--font-up-2);
+  color: var(--primary-medium);
+  font-size: var(--font-up-1);
 }
